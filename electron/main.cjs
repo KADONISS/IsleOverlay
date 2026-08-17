@@ -685,6 +685,13 @@ async function sendOverlayHello(ws, token) {
   } catch {}
 }
 
+// IslePilot deployments may wrap live messages with different field names.
+function extractLivePayload(frame) {
+  if (!frame || ![frame.t, frame.type, frame.event].includes("live")) return null;
+  const payload = frame.d ?? frame.data ?? frame.payload ?? frame;
+  return payload && typeof payload === "object" ? payload : null;
+}
+
 function connectLive() {
   liveStopped = false;
   const token = readSettings().overlayToken;
@@ -722,9 +729,10 @@ function connectLive() {
     } catch {
       return;
     }
-    if (frame && frame.t === "live" && frame.d) {
-      if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send("overlay:live", frame.d);
-      radarSend("overlay:live", frame.d);
+    const livePayload = extractLivePayload(frame);
+    if (livePayload) {
+      if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send("overlay:live", livePayload);
+      radarSend("overlay:live", livePayload);
     } else if (frame && frame.t === "troll") {
       if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send("overlay:troll", frame);
     } else if (frame && frame.type === "ticket") {

@@ -1,6 +1,6 @@
 # IsleOverlay
 
-IsleOverlay is a configurable clone of the original overlay bundle. It keeps its own settings directory and does not overwrite `TheIsleVN-Gacha.exe`.
+IsleOverlay is a configurable overlay bundle for IslePilot-compatible servers. It keeps its own settings directory and can run independently from any previous overlay installation.
 
 ## Configure a server
 

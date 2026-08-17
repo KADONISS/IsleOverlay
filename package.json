@@ -2,7 +2,7 @@
   "name": "isleoverlay",
   "productName": "IsleOverlay",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Configurable The Isle in-game overlay for IslePilot-compatible servers",
   "author": "IsleOverlay",
   "type": "module",
