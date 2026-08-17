@@ -1,0 +1,75 @@
+{
+  "name": "isleoverlay",
+  "productName": "IsleOverlay",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Configurable The Isle in-game overlay for IslePilot-compatible servers",
+  "author": "IsleOverlay",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "check": "node --check electron/main.cjs && node --check electron/preload.cjs",
+    "pack": "electron-builder --dir",
+    "dist": "npm run dist:installer && npm run dist:portable",
+    "dist:installer": "electron-builder --win nsis --config.directories.output=release/installer",
+    "dist:portable": "electron-builder --win portable --config.directories.output=release/portable"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "electron-updater": "^6.6.2",
+    "koffi": "^3.1.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "three": "^0.184.0",
+    "uiohook-napi": "^1.5.5",
+    "ws": "^8.21.0"
+  },
+  "devDependencies": {
+    "electron": "^37.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "eu.isleoverlay.desktop",
+    "productName": "IsleOverlay",
+    "icon": "electron/tray.ico",
+    "asar": true,
+    "npmRebuild": false,
+    "buildDependenciesFromSource": false,
+    "asarUnpack": [
+      "node_modules/koffi/**/*",
+      "node_modules/uiohook-napi/**/*"
+    ],
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "resources/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "IsleOverlay-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "IsleOverlay"
+    }
+  },
+  "allowScripts": {
+    "electron@37.10.3": true,
+    "koffi@3.1.5": true,
+    "uiohook-napi@1.5.5": true,
+    "electron-winstaller@5.4.0": true
+  }
+}
